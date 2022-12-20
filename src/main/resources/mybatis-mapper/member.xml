@@ -33,4 +33,11 @@
             #{postcode}
             );
     </insert>
+
+    <select id="login" parameterType="com.example.xenium.member.dto.LoginDTO" resultType="com.example.xenium.member.dto.SignUpDTO">
+        select *
+            from customer
+        where id = #{id}
+        and pw = #{pw}
+    </select>
 </mapper>

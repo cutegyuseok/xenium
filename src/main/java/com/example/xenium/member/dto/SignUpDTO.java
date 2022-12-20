@@ -115,4 +115,21 @@ public class SignUpDTO {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+
+    @Override
+    public String toString() {
+        return "SignUpDTO{" +
+                "id='" + id + '\'' +
+                ", pw='" + pw + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", sns='" + sns + '\'' +
+                ", birth='" + birth + '\'' +
+                ", addressDetail='" + addressDetail + '\'' +
+                ", postcode='" + postcode + '\'' +
+                '}';
+    }
 }

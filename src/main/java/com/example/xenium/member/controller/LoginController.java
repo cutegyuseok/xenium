@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @Api(tags = {"사용자 로그인 서비스"},description = "사용자 로그인 관련 서비스")
 @RestController
 public class LoginController {
@@ -17,10 +19,19 @@ public class LoginController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    HttpSession session;
+
     @ApiOperation(value = "사용자 로그인", notes = "사용자 로그인 시도")
     @PostMapping("/login")
-    public String login(LoginDTO dto){
-        return "LOGIN_SUCCESS";
+    public String login(LoginDTO dto) {
+        SignUpDTO info = memberService.login(dto);
+        if (info != null) {
+            session.setAttribute("SESSION_INFO", info);
+            return "LOGIN_SUCCESS";
+        } else {
+            return "LOGIN_FAILED";
+        }
     }
 
     @PostMapping("/signup")
