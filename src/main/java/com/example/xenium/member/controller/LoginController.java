@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -27,15 +26,28 @@ public class LoginController {
     public String login(LoginDTO dto) {
         SignUpDTO info = memberService.login(dto);
         if (info != null) {
-            session.setAttribute("SESSION_INFO", info);
+            session.setAttribute("id", info);
             return "LOGIN_SUCCESS";
         } else {
             return "LOGIN_FAILED";
         }
     }
 
+    @ApiOperation(value = "사용자 회원가입", notes = "사용자 회원가입 시도")
     @PostMapping("/signup")
     public int signup(SignUpDTO dto){
         return memberService.signup(dto);
     }
+
+    @ApiOperation(value = "사용자 로그아웃", notes = "사용자 로그아웃 시도")
+    @PostMapping("/logout")
+    public String logout(){
+        if(session.getAttribute("id")!=null) {
+            session.setAttribute("id", null);
+            return "success";
+        }else {
+            return "fail";
+        }
+    }
+
 }
