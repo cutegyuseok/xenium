@@ -123,7 +123,7 @@ http://www.tooplate.com/view/2082-pure-mix
 					}, //넘길 파라미터
 					success : function(data) {
 						//통신이 정상적으로 되었을때 실행 할 내용
-						if(data != '')    {
+						if(data == 'LOGIN_SUCCESS')    {
 							alert('로그인 성공하였습니다.');
 							location.href="/";
 						}else{

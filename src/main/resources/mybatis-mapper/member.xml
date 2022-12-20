@@ -3,4 +3,34 @@
 
 <mapper namespace="com.example.xenium.mapper.MemberMapper">
 
+    <insert id="signup" parameterType="com.example.xenium.member.dto.SignUpDTO">
+        INSERT INTO customer
+        (
+            id,
+            pw,
+            name,
+            phone,
+            address,
+            email,
+            gender,
+            sns,
+            birth,
+            addressdetail,
+            postcode
+        )
+            value
+            (
+            #{id},
+            #{pw},
+            #{name},
+            #{phone},
+            #{address},
+            #{email},
+            #{gender},
+            #{sns},
+            #{birth},
+            #{addressDetail},
+            #{postcode}
+            );
+    </insert>
 </mapper>
