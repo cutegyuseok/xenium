@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.xenium.mapper.MemberMapper">
+<mapper namespace="com.example.xenium.mapper.ProductMapper">
 
 
-    <select id="selectProduct" resultType="com.example.xenium.product.dto.Product">
-        select * from product
+    <select id="selectProduct" resultType="com.example.xenium.product.dto.Product" parameterType="com.example.xenium.util.dto.SearchDto">
+        SELECT   *,
+                 (
+                     SELECT catename
+                     FROM   category c
+                     WHERE  id=
+                            (
+                                SELECT cateid
+                                FROM   catemap
+                                WHERE  etcid=p.id )) catename
+        FROM     product p
+        ORDER BY id ASC
+        limit #{pagination.limitStart},#{recordSize}
+    </select>
+
+    <select id="selectAllCount" resultType="Integer">
+        select count(*) from product where status ='판매가능'
+    </select>
+
+    <select id="selectDistinctProduct" resultType="com.example.xenium.product.dto.Product" parameterType="com.example.xenium.util.dto.SearchDto">
+        SELECT *,
+               (SELECT catename
+                FROM   category c
+                WHERE  id = (SELECT cateid
+                             FROM   catemap
+                             WHERE  etcid = p.id)) catename
+        FROM   product p
+        WHERE  id IN (SELECT etcid
+                      FROM   catemap c2
+                      WHERE  cateid = (SELECT id
+                                       FROM   category c
+                                       WHERE  catename = #{keyword}))
+          AND status = '판매가능'
+        ORDER  BY id ASC
+        limit #{pagination.limitStart},#{recordSize}
+    </select>
+
+    <select id="selectDistinctCount" resultType="Integer" parameterType="com.example.xenium.util.dto.SearchDto">
+        SELECT Count(*)
+        FROM   product
+        WHERE  id IN (SELECT etcid
+                      FROM   catemap
+                      WHERE  cateid = (SELECT id
+                                       FROM   category
+                                       WHERE  catename = #{keyword}))
+          AND status = '판매가능'
     </select>
 
 </mapper>

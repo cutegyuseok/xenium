@@ -70,7 +70,7 @@ public class SearchDto {
                 "page=" + page +
                 ", recordSize=" + recordSize +
                 ", pageSize=" + pageSize +
-                ", keyword='" + keyword + '\'' +
+                ", searchWord='" + keyword + '\'' +
                 ", searchType='" + searchType + '\'' +
                 ", pagination=" + pagination +
                 '}';

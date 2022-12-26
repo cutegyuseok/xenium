@@ -37,7 +37,7 @@
     <select id="login" parameterType="com.example.xenium.member.dto.LoginDTO" resultType="com.example.xenium.member.dto.SignUpDTO">
         SELECT *
         FROM   customer
-        WHERE  id = # {id}
-             AND pw = # {pw}
+        WHERE  id = #{id}
+             AND pw = #{pw}
     </select>
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,7 +50,8 @@ public class PageController {
 
     @ApiOperation(value = "상품 목록 페이지", notes = "상품 목록 페이지 이동")
     @GetMapping("/productList")
-    public String productList(SearchDto params, Model model) {
+    public String productList(@RequestParam String searchWord, SearchDto params, Model model) {
+        params.setKeyword(searchWord);
         ProductList product = ps.findAll(params);
         model.addAttribute("product", product);
         String key=params.getKeyword();
