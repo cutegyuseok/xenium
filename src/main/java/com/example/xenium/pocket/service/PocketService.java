@@ -58,7 +58,6 @@ public class PocketService {
                     String compOrg = String.valueOf(org.get("amount"));
                     if (compAmount.equals(compOrg)){
                         notChanged.add(String.valueOf(compare.get("id")));
-                        System.out.println(compare.get("name")+" 안바뀜");
                     }else {
                         presentID.add(compare.get("id"));
                     }
