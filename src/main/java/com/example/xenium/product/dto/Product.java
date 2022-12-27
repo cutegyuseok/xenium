@@ -14,6 +14,16 @@ public class Product {
 
     private String catename;
 
+    private String availAmount;
+
+    public String getAvailAmount() {
+        return availAmount;
+    }
+
+    public void setAvailAmount(String availAmount) {
+        this.availAmount = availAmount;
+    }
+
     public Product() {
     }
 

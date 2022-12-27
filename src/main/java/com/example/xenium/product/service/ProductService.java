@@ -1,5 +1,6 @@
 package com.example.xenium.product.service;
 
+import com.example.xenium.pocket.repository.PocketRepository;
 import com.example.xenium.product.dto.Category;
 import com.example.xenium.product.dto.Product;
 import com.example.xenium.product.dto.ProductList;
@@ -19,17 +20,36 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    PocketRepository pocketRepository;
+
     public ProductList findAll(SearchDto dto){
         try {
             if (dto.getKeyword().equals("")) {
                 Pagination pagination = new Pagination(productRepository.selectAllCount(), dto);
                 dto.setPagination(pagination);
                 List<Product> list = productRepository.selectProduct(dto);
+                for (Product product:list){
+                    int ordered=0;
+                    if(pocketRepository.getProductOrderedAmount(product.getId())!=null){
+                        ordered=pocketRepository.getProductOrderedAmount(product.getId());
+                    }
+                    String availAmount =String.valueOf(product.getAmount()-ordered);
+                    product.setAvailAmount(availAmount);
+                }
                 return new ProductList(list, pagination);
             } else {
                 Pagination pagination = new Pagination(productRepository.selectDistinctCount(dto), dto);
                 dto.setPagination(pagination);
                 List<Product> list = productRepository.selectDistinctProduct(dto);
+                for (Product product:list){
+                    int ordered=0;
+                    if(pocketRepository.getProductOrderedAmount(product.getId())!=null){
+                        ordered=pocketRepository.getProductOrderedAmount(product.getId());
+                    }
+                    String availAmount =String.valueOf(product.getAmount()-ordered);
+                    product.setAvailAmount(availAmount);
+                }
                 return new ProductList(list, pagination);
             }
         }catch (Exception e){
