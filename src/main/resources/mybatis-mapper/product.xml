@@ -51,5 +51,12 @@
                                        WHERE  catename = #{keyword}))
           AND status = '판매가능'
     </select>
+    
+    <select id="getCategories" resultType="com.example.xenium.product.dto.Category">
+        SELECT *
+        FROM   category
+        WHERE  catetype = '제품'
+           OR catetype = 'PRODUCT'
+    </select>
 
 </mapper>

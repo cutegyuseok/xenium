@@ -1,5 +1,6 @@
 package com.example.xenium.product.service;
 
+import com.example.xenium.product.dto.Category;
 import com.example.xenium.product.dto.Product;
 import com.example.xenium.product.dto.ProductList;
 import com.example.xenium.product.repository.ProductRepository;
@@ -35,5 +36,9 @@ public class ProductService {
             e.printStackTrace();
         }
         return new ProductList(Collections.EMPTY_LIST,null);
+    }
+
+    public List<Category>getCategories(){
+        return productRepository.getCategories();
     }
 }

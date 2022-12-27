@@ -1,6 +1,7 @@
 package com.example.xenium.product.repository;
 
 import com.example.xenium.mapper.ProductMapper;
+import com.example.xenium.product.dto.Category;
 import com.example.xenium.product.dto.Product;
 import com.example.xenium.util.dto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class ProductRepository {
 
     public int selectDistinctCount(SearchDto dto){
         return productMapper.selectDistinctCount(dto);
+    }
+
+    public List<Category>getCategories(){
+        return productMapper.getCategories();
     }
 
 }

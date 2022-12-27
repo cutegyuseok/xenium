@@ -84,21 +84,14 @@ function locationChange(){
           SHOP
         </a>
         <ul id="submenu2" class="submenu">
-          <li>
-            <a onclick="productLocationChange('커피')"style="color:white;">
-              coffee
-            </a>
-          </li>
-          <li>
-            <a onclick="productLocationChange('쿠키')"style="color:white;">
-              cookie
-            </a>
-          </li>
-          <li>
-            <a onclick="productLocationChange('굿즈')"style="color:white;">
-              goods
-            </a>
-          </li>
+          <tr th:each="category:${session.categories}">
+            <li>
+              <a th:text="${category.getCateName()}"
+                 th:cateName="${category.getCateName()}"
+                 th:onclick="productLocationChange(this.getAttribute('cateName'))">
+              </a>
+            </li>
+          </tr>
         </ul>
       </li>
       <li>

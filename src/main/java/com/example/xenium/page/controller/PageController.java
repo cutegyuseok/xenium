@@ -24,7 +24,8 @@ public class PageController {
 
     @ApiOperation(value = "메인페이지", notes = "메인페이지(index) 이동")
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(HttpSession session) {
+        session.setAttribute("categories",ps.getCategories());
         return "index";
     }
 
