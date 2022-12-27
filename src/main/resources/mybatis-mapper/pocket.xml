@@ -13,4 +13,20 @@
             B.USERID=#{userid}
     </select>
 
+    <select id="getProductOrderedAmount" parameterType="String" resultType="Integer">
+        select sum(amount) from orderdetail where productid =${pId}
+    </select>
+
+    <update id="updateCart" parameterType="com.example.xenium.pocket.dto.Cart">
+        update cart set amount=${amount} where userid=#{userId} and productid=${productId}
+    </update>
+
+    <insert id="insertCart" parameterType="com.example.xenium.pocket.dto.Cart">
+        insert into cart(userid,productid,amount) values (#{userId},${productId},${amount})
+    </insert>
+
+    <delete id="deleteCart" parameterType="com.example.xenium.pocket.dto.Cart">
+        delete from cart where userid=#{userId} and productid=${productId}
+    </delete>
+
 </mapper>

@@ -59,4 +59,9 @@
            OR catetype = 'PRODUCT'
     </select>
 
+    <select id="getProductAmount" parameterType="String" resultType="Integer">
+        select amount from product where id=${pId}
+    </select>
+
+
 </mapper>

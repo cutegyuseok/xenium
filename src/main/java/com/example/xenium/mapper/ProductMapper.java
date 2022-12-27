@@ -18,4 +18,6 @@ public interface ProductMapper {
     public int selectDistinctCount(SearchDto dto);
 
     public List<Category>getCategories();
+
+    public int getProductAmount(String pId);
 }

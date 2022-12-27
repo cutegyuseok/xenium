@@ -66,7 +66,6 @@ public class PageController {
         }
         if(session.getAttribute("id")!=null){
             SignUpDTO user=(SignUpDTO) session.getAttribute("id");
-            System.out.println(user.getId());
             model.addAttribute("paramText",pks.getUserCart(user.getId()));
         }
         return "productlist";

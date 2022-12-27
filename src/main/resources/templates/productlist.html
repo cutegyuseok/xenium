@@ -573,6 +573,7 @@
                 selectAvailAmount(id,ind,'add');
             }else{
                 var cte=$('#catemap'+id).val();
+                //포켓정보
                 pocket.push({id:id,name:name,price:price,amount:0,cate:cte});
                 for(var i=0;i<pocket.length;i++){
                     if(pocket[i].id==id){
@@ -614,25 +615,17 @@
                 if(gubun=="add"){
                     if(fragment>=(pocket[ind].amount+1)){
                         var catemap=$("#catemap"+id).val();
-                        if(catemap=='쿠키'){
-                            if(pocket[ind].amount+1==6){
-                                alert("인당/품목 최대 수량은 5개입니다.");
-                                return;
-                            }
-                        }
-
                         var org=pocket[ind].amount;
                         pocket[ind].amount+=1;
                         $("#prod"+id).text(pocket[ind].amount);
                         insertCart(ind,org);
-
                     }else{
                         alert("최대수량입니다.");
                     }
 
                 }else{
+                    //뺴기
                     if(fragment>=pocket[ind].amount){
-
 
                         var org=pocket[ind].amount;
                         pocket[ind].amount-=1;
@@ -640,21 +633,14 @@
                         insertCart(ind,org);
 
                     }else{
-                        if(pocket[ind].amount<6){
                             var org=pocket[ind].amount;
                             pocket[ind].amount=fragment;
                             $("#prod"+id).text(pocket[ind].amount);
                             insertCart(ind,org);
-                            alert("남은수량이 없어 최대수량으로 대체합니다.");
-
-
-
-                        }else{
-                            pocket[ind].amount=5;
-                            $("#prod"+id).text(5);
+                            alert("남은수량이 부족해 가능 최대 수량으로 대체합니다.");
+                            window.location.reload();
                         }
                     }
-                }
             });
         }
 

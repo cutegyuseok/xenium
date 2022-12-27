@@ -36,4 +36,9 @@ public class ProductRepository {
         return productMapper.getCategories();
     }
 
+    public int getProductAmount(String pId){
+        return productMapper.getProductAmount(pId);
+    }
+
+
 }
