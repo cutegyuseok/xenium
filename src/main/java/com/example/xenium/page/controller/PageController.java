@@ -1,6 +1,8 @@
 package com.example.xenium.page.controller;
 
 import com.example.xenium.aop.NonLogin;
+import com.example.xenium.member.dto.SignUpDTO;
+import com.example.xenium.pocket.service.PocketService;
 import com.example.xenium.product.dto.ProductList;
 import com.example.xenium.product.service.ProductService;
 import com.example.xenium.util.dto.SearchDto;
@@ -21,6 +23,9 @@ public class PageController {
 
     @Autowired
     ProductService ps;
+
+    @Autowired
+    PocketService pks;
 
     @ApiOperation(value = "메인페이지", notes = "메인페이지(index) 이동")
     @GetMapping("/")
@@ -51,13 +56,18 @@ public class PageController {
 
     @ApiOperation(value = "상품 목록 페이지", notes = "상품 목록 페이지 이동")
     @GetMapping("/productList")
-    public String productList(@RequestParam String searchWord, SearchDto params, Model model) {
+    public String productList(@RequestParam String searchWord, SearchDto params, Model model,HttpSession session) {
         params.setKeyword(searchWord);
         ProductList product = ps.findAll(params);
         model.addAttribute("product", product);
         String key=params.getKeyword();
         if(key!=null){
             model.addAttribute("keyword", params.getKeyword());
+        }
+        if(session.getAttribute("id")!=null){
+            SignUpDTO user=(SignUpDTO) session.getAttribute("id");
+            System.out.println(user.getId());
+            model.addAttribute("paramText",pks.getUserCart(user.getId()));
         }
         return "productlist";
     }

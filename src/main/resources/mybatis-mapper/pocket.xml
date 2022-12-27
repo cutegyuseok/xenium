@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.xenium.mapper.PocketMapper">
+
+    <select id="getUserCart" resultType="HashMap" parameterType="String">
+        SELECT A.ID AS pid,A.PRODUCTNAME productName,A.THUMB thumb,A.PRICE price,B.ID AS cid,B.AMOUNT amount,B.INDATE indate,
+               ( SELECT CATENAME FROM CATEGORY WHERE ID=(SELECT CATEID FROM CATEMAP WHERE ETCTABLE='PRODUCT' AND ETCID=A.ID)) catename
+        FROM PRODUCT A
+           ,CART B
+        WHERE
+            A.ID=B.PRODUCTID AND
+            B.USERID=#{userid}
+    </select>
+
+</mapper>

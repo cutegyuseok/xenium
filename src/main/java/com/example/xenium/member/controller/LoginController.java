@@ -50,4 +50,12 @@ public class LoginController {
         }
     }
 
+    @PostMapping("/checkLogin")
+    public String checkLogin(){
+        if(session.getAttribute("id")!=null){
+            return "Login";
+        }else return "need";
+    }
+
+
 }
