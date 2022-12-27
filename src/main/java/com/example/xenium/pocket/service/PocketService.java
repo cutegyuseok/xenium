@@ -45,7 +45,9 @@ public class PocketService {
         Map<String, List<LinkedHashMap<String, String>>> param = (Map<String, List<LinkedHashMap<String, String>>>) pocket;
         List<LinkedHashMap<String, String>> cartList = param.get("pocket");
         List<HashMap<String,String>> userCart = getUserCart(uId);
+        //변하지 않은 Cart
         ArrayList<String> notChanged = new ArrayList<>();
+        //insert가 아닌 update를 해야하는 대상
         ArrayList<String> presentID = new ArrayList<>();
         for(HashMap<String,String> compare:cartList){
             for (HashMap<String,String> org : userCart){
@@ -69,6 +71,7 @@ public class PocketService {
             String id=updatedCart.get("id");
             String amount = String.valueOf(updatedCart.get("amount"));
             Cart cart = new Cart(uId,id,amount);
+            //변하지 않은 cart 인지 확인
             for (String num:notChanged){
                 if(id.equals(num)) {
                 changed =false;
@@ -76,6 +79,7 @@ public class PocketService {
             }
             if (changed){
                 boolean present = false;
+                //update, insert ,delete 대상인지 구분
                 for(String num:presentID){
                     if (id.equals(num)){
                         present=true;
