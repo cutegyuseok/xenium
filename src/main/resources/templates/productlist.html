@@ -413,7 +413,7 @@
 
         function pay(){
 
-
+            //여기서부터 시작. 해야할것은 구매 기능 구현
             $.ajax({
                 url: "/confirmBuying",
                 dataType: "json",
@@ -441,7 +441,6 @@
                                 if(data.responseText=="success"){
 
                                     let total=0;
-
                                     for(var i=0;i<pocket.length;i++){
                                         total+=pocket[i].amount*pocket[i].price;
                                     }
@@ -620,7 +619,11 @@
                         $("#prod"+id).text(pocket[ind].amount);
                         insertCart(ind,org);
                     }else{
-                        alert("최대수량입니다.");
+                        pocket[ind].amount=fragment;
+                        $("#prod"+id).text(pocket[ind].amount);
+                        insertCart(ind,fragment);
+                        alert("남은수량이 부족해 가능 최대 수량으로 대체합니다.");
+                        window.location.reload();
                     }
 
                 }else{
@@ -633,11 +636,10 @@
                         insertCart(ind,org);
 
                     }else{
-                            var org=pocket[ind].amount;
                             pocket[ind].amount=fragment;
                             $("#prod"+id).text(pocket[ind].amount);
-                            insertCart(ind,org);
-                            alert("남은수량이 부족해 가능 최대 수량으로 대체합니다.");
+                            insertCart(ind,fragment);
+                            alert("남은수량 이 부족해 가능 최대 수량으로 대체합니다.");
                             window.location.reload();
                         }
                     }

@@ -97,4 +97,9 @@ public class PocketService {
         return updatedCNT>0;
     }
 
+
+    public boolean deleteCart(String id,String uId){
+        Cart cart = new Cart(uId,id,"0");
+        return pr.deleteCart(cart)>0;
+    }
 }

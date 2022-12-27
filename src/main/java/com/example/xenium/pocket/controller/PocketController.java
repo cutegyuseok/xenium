@@ -5,6 +5,7 @@ import com.example.xenium.pocket.service.PocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -27,5 +28,14 @@ public class PocketController {
     public String selectAvailAmountCart(String id) {
     String fragment = String.valueOf(pocketService.selectAvailAmountCart(id));
         return fragment;
+    }
+
+    @PostMapping("/deleteCart")
+    public String deleteCart(String id,@ApiIgnore HttpSession session){
+        SignUpDTO user=(SignUpDTO) session.getAttribute("id");
+        if(pocketService.deleteCart(id,user.getId())){
+            return "success";
+        }
+        return "failed";
     }
 }
