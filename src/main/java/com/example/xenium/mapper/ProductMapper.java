@@ -5,6 +5,7 @@ import com.example.xenium.product.dto.Product;
 import com.example.xenium.util.dto.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -20,4 +21,7 @@ public interface ProductMapper {
     public List<Category>getCategories();
 
     public int getProductAmount(String pId);
+
+    List<HashMap<String, Object>> checkAvailProductId();
+
 }

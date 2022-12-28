@@ -7,6 +7,7 @@ import com.example.xenium.util.dto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -38,6 +39,9 @@ public class ProductRepository {
 
     public int getProductAmount(String pId){
         return productMapper.getProductAmount(pId);
+    }
+    public List<HashMap<String, Object>> checkAvailProductId(){
+        return productMapper.checkAvailProductId();
     }
 
 

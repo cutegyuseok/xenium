@@ -40,4 +40,25 @@
         WHERE  id = #{id}
              AND pw = #{pw}
     </select>
+
+    <insert id="insertOrderBook" parameterType="com.example.xenium.member.dto.Order">
+        INSERT INTO ORDERBOOK
+        (USERID,NAME,PHONE,POSTCODE,ADDRESS,ADDRESSDETAIL)
+        VALUES
+        (#{id},#{name},#{phone},#{postcode},#{address},#{addressDetail})
+        <selectKey resultType="int" keyProperty="preid" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertOrderDetail" parameterType="HashMap">
+        INSERT INTO ORDERDETAIL
+            (ORDERID,USERID,PRODUCTID,AMOUNT,PRICE)
+        VALUES
+            (#{id},#{userid},#{pid},#{amount},#{price})
+    </insert>
+
+    <delete id="deleteCart" parameterType="String">
+        delete from cart where userid=#{id}
+    </delete>
 </mapper>

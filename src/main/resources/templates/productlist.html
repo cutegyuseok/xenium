@@ -425,11 +425,9 @@
                         alert("로그인 이후에 장바구니담기/구매 가능합니다.");
                     }else if(data.responseText=='amount'){
                         alert("쿠키 최소수량은 3개, 최대수량은 14개, 품목당 최대5개 입니다.\n 장바구니를 체크해주세요.");
-                    }else if(data.responseText=='avail'){
-                        alert("현재 판매중이 아닌 상품이 있습니다.\n 장바구니를 체크해주세요.");
-                    }else{
-
-
+                    }else if(data.responseText=='notAvail'){
+                        alert("현재 구매불가 상품이 있습니다.\n 새로고침 후 장바구니를 체크해주세요.");
+                    }else if(data.responseText=='success'){
                         $.ajax({
                             url: "/confirmRest",
                             dataType: "json",
@@ -471,12 +469,13 @@
                                             msg += '카드 승인번호 : ' + rsp.apply_num;
 
                                             alert("구매 완료 하였습니다.");
+                                            window.location.reload();
 
                                         } else {
                                             var msg = '결제에 실패하였습니다.';
                                             msg += '에러내용 : ' + rsp.error_msg;
-
                                             alert(msg);
+                                            window.location.reload();
                                         }
                                         //document.location.href="/goPay"; //alert창 확인 후 이동할 url 설정
                                     });
@@ -484,29 +483,35 @@
 
                                 }else if(data.responseText=="failed"){
                                     alert("구매에 실패하였습니다.");
+                                    window.location.reload();
                                 }else if(data.responseText=="noneProduct"){
                                     alert("장바구니에 현재 판매하지 않는 제품이 있습니다.");
+                                    window.location.reload();
                                 }else{
-                                    var res=JSON.parse(data.responseText);
-                                    var str="해당 제품의 재고가 다음과 같습니다.\n";
-                                    for(var i=0;i<res.length;i++){
-                                        if(res[i].flag=="true"){
-                                            str+=res[i].name+"의 재고 : "+res[i].amount+"\n";
-                                        }
-                                    }
-                                    str+="해당 제품의 재고로 바꾸시겠습니까?\n";
-
-                                    if(confirm(str)){
-                                        pocket=res;
-                                        insertCart();
-                                    }else{
-                                        location.href = "/productList?keyword=";
-                                    }
+                                    alert("오류가 발생했습니다.");
+                                    window.location.reload();
+                                    // var res=JSON.parse(data.responseText);
+                                    // var str="해당 제품의 재고가 다음과 같습니다.\n";
+                                    // for(var i=0;i<res.length;i++){
+                                    //     if(res[i].flag=="true"){
+                                    //         str+=res[i].name+"의 재고 : "+res[i].amount+"\n";
+                                    //     }
+                                    // }
+                                    // str+="해당 제품의 재고로 바꾸시겠습니까?\n";
+                                    //
+                                    // if(confirm(str)){
+                                    //     pocket=res;
+                                    //     insertCart();
+                                    // }else{
+                                    //     location.href = "/productList?keyword=";
+                                    // }
                                 }
                             }
 
                         });
 
+                    }else {
+                        alert("오류가 발생했습니다.");
                     }
 
                 }

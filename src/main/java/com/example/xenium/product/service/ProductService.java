@@ -10,9 +10,7 @@ import com.example.xenium.util.dto.SearchDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -60,5 +58,33 @@ public class ProductService {
 
     public List<Category>getCategories(){
         return productRepository.getCategories();
+    }
+
+    public boolean checkAvailProductId(Object pocket,List<HashMap<String,String>> userCart){
+        Map<String, List<LinkedHashMap<String, String>>> param = (Map<String, List<LinkedHashMap<String, String>>>) pocket;
+        List<LinkedHashMap<String, String>> cartList = param.get("pocket");
+        List<HashMap<String, Object>> idList = productRepository.checkAvailProductId();
+        boolean success = true;
+        for (LinkedHashMap<String,String> cart: cartList){
+            String id = cart.get("id");
+            String amount = String.valueOf(cart.get("amount"));
+            boolean isAvail = false;
+            //구매 가능 상품인지 확인
+            for (HashMap<String,Object> availId:idList){
+                if (String.valueOf(availId.get("id")).equals(id)){
+                    //데이터베이스와 일치하는 정보인지
+                    for (HashMap<String,String> dbCart : userCart){
+                        String dbId = dbCart.get("id");
+                        String dbAmount =String.valueOf(dbCart.get("amount"));
+
+                        if (dbId.equals(id)&&dbAmount.equals(amount)){
+                            isAvail = true;
+                        }
+                    }
+                }
+            }
+            if (!isAvail)success = false;
+        }
+        return success;
     }
 }
