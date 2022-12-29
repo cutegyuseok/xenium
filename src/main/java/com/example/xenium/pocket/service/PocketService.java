@@ -46,24 +46,25 @@ public class PocketService {
         List<LinkedHashMap<String, String>> cartList = param.get("pocket");
         List<HashMap<String,String>> userCart = getUserCart(uId);
         //변하지 않은 Cart
-        ArrayList<String> notChanged = new ArrayList<>();
+        ArrayList<String> unchangedIds = new ArrayList<>();
         //insert가 아닌 update를 해야하는 대상
-        ArrayList<String> presentID = new ArrayList<>();
-        for(HashMap<String,String> compare:cartList){
-            for (HashMap<String,String> org : userCart){
-                //일치하는 품목인 경우
-                if(compare.get("id").equals(org.get("id"))){
-                    //품목의 수량이 같을 경우
-                    String compAmount = String.valueOf(compare.get("amount"));
-                    String compOrg = String.valueOf(org.get("amount"));
-                    if (compAmount.equals(compOrg)){
-                        notChanged.add(String.valueOf(compare.get("id")));
-                    }else {
-                        presentID.add(compare.get("id"));
+        ArrayList<String> presentIds = new ArrayList<>();
+
+        cartList.stream().forEach(compare -> {
+            userCart.stream().forEach(org -> {
+                // If the item IDs match
+                if (compare.get("id").equals(org.get("id"))) {
+                    // If the item quantities are the same
+                    String compareAmount = String.valueOf(compare.get("amount"));
+                    String originalAmount = String.valueOf(org.get("amount"));
+                    if (compareAmount.equals(originalAmount)) {
+                        unchangedIds.add(compare.get("id"));
+                    } else {
+                        presentIds.add(compare.get("id"));
                     }
                 }
-            }
-        }
+            });
+        });
         int updatedCNT =0;
         for (HashMap<String,String> updatedCart:cartList){
             boolean changed = true;
@@ -71,7 +72,7 @@ public class PocketService {
             String amount = String.valueOf(updatedCart.get("amount"));
             Cart cart = new Cart(uId,id,amount);
             //변하지 않은 cart 인지 확인
-            for (String num:notChanged){
+            for (String num:unchangedIds){
                 if(id.equals(num)) {
                 changed =false;
                 }
@@ -79,7 +80,7 @@ public class PocketService {
             if (changed){
                 boolean present = false;
                 //update, insert ,delete 대상인지 구분
-                for(String num:presentID){
+                for(String num:presentIds){
                     if (id.equals(num)){
                         present=true;
                     }
