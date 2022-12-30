@@ -41,20 +41,16 @@ public class PocketService {
         return amount-ordered;
     }
 
-    public boolean addCartToDB(Object pocket,String uId){
+    public boolean updateCartInDB(Object pocket,String uId){
         Map<String, List<LinkedHashMap<String, String>>> param = (Map<String, List<LinkedHashMap<String, String>>>) pocket;
         List<LinkedHashMap<String, String>> cartList = param.get("pocket");
         List<HashMap<String,String>> userCart = getUserCart(uId);
-        //변하지 않은 Cart
         ArrayList<String> unchangedIds = new ArrayList<>();
-        //insert가 아닌 update를 해야하는 대상
         ArrayList<String> presentIds = new ArrayList<>();
 
         cartList.stream().forEach(compare -> {
             userCart.stream().forEach(org -> {
-                // If the item IDs match
                 if (compare.get("id").equals(org.get("id"))) {
-                    // If the item quantities are the same
                     String compareAmount = String.valueOf(compare.get("amount"));
                     String originalAmount = String.valueOf(org.get("amount"));
                     if (compareAmount.equals(originalAmount)) {
@@ -71,7 +67,6 @@ public class PocketService {
             String id=updatedCart.get("id");
             String amount = String.valueOf(updatedCart.get("amount"));
             Cart cart = new Cart(uId,id,amount);
-            //변하지 않은 cart 인지 확인
             for (String num:unchangedIds){
                 if(id.equals(num)) {
                 changed =false;
@@ -79,7 +74,6 @@ public class PocketService {
             }
             if (changed){
                 boolean present = false;
-                //update, insert ,delete 대상인지 구분
                 for(String num:presentIds){
                     if (id.equals(num)){
                         present=true;

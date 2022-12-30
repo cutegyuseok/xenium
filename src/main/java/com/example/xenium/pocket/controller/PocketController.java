@@ -21,7 +21,7 @@ public class PocketController {
     public @ResponseBody String addCart(@RequestBody(required = false) Object pocket, HttpSession session) {
         if (session.getAttribute("id")==null)return "loginFail";
         SignUpDTO user=(SignUpDTO) session.getAttribute("id");
-        pocketService.addCartToDB(pocket,user.getId());
+        pocketService.updateCartInDB(pocket,user.getId());
         return "success";
     }
     @PostMapping("/selectAvailAmountCart")//상품id로 최대 구매 가능수량 확인
